@@ -1,0 +1,248 @@
+.tree-item {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tree-item:hover {
+    background-color: #f8f9fa;
+}
+
+.tree-toggle {
+    cursor: pointer;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    border-radius: 3px;
+}
+
+.tree-toggle:hover {
+    background-color: #dee2e6;
+}
+
+.tree-content {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    cursor: pointer;
+    gap: 4px;
+    padding: 2px 0;
+}
+
+.tree-children {
+    padding-left: 25px;
+    display: none;
+}
+
+.tree-children.show {
+    display: block;
+}
+
+.checkbox-container {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.selected {
+    background-color: #e0f7fa;
+}
+
+.level-region {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.level-ruta {
+    color: #198754;
+}
+
+.level-circuito {
+    color: #6c757d;
+}
+
+.level-pdv {
+    color: #fd7e14;
+    font-style: italic;
+}
+
+/* Estilos para la lista de elementos seleccionados */
+.selected-items-list {
+    font-size: 0.9rem;
+}
+
+.selected-items-list .list-group-item {
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.selected-items-list .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.selected-items-list .text-primary .list-group-item {
+    border-left-color: #0d6efd;
+}
+
+.selected-items-list .text-success .list-group-item {
+    border-left-color: #198754;
+}
+
+.selected-items-list .text-warning .list-group-item {
+    border-left-color: #fd7e14;
+}
+
+.selected-items-list .btn-outline-danger {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.selected-items-list .list-group-item:hover .btn-outline-danger {
+    opacity: 1;
+}
+
+/* Estilos para la información de esquema y categoría */
+.esquema-badge {
+    display: inline-block;
+    padding: 2px 8px; /* Matched with .inline-chip */
+    border-radius: 4px;
+    font-size: 0.85em; /* Matched with .inline-chip */
+    font-weight: 600; /* Matched with .inline-chip */
+    margin-top: 3px;
+    background-color: #e6f0ff; /* Matched with .esquema-chip */
+    color: #0d6efd; /* Matched with .esquema-chip */
+    border: 1px solid #0d6efd30; /* Matched with .esquema-chip */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Matched with .inline-chip */
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+.categoria-badge {
+    display: inline-block;
+    padding: 2px 8px; /* Matched with .inline-chip */
+    border-radius: 4px;
+    font-size: 0.85em; /* Matched with .inline-chip */
+    font-weight: 600; /* Matched with .inline-chip */
+    margin-top: 3px;
+    margin-left: 4px;
+    background-color: #e6fff0; /* Matched with .categoria-chip default */
+    color: #198754; /* Matched with .categoria-chip default */
+    border: 1px solid #19875430; /* Added for consistency */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Matched with .inline-chip */
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+/* Estilos para los selectores de esquema y categoría en el modal */
+#esquema-select option, #categoria-select option {
+    padding: 8px;
+}
+
+.inline-chip {
+    font-size: 0.85em;
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 6px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+.esquema-chip {
+    color: #0d6efd; /* Color azul más brillante */
+    background-color: #e6f0ff;
+    border-color: #0d6efd30; /* Borde azul con transparencia */
+}
+
+.categoria-chip {
+    color: #198754; /* Color verde por defecto si no hay color personalizado */
+    background-color: #e6fff0;
+    border-color: #19875430; /* Added border for consistency */
+}
+
+/* Nueva clase para un chip magenta y su versión oscurecida */
+.categoria-chip.custom-magenta, .categoria-chip[data-categoria="CustomMagenta"] {
+    color: #ffffff !important; /* Texto blanco para contraste */
+    background-color: #8B008B !important; /* Magenta oscuro (DarkMagenta) */
+    border-color: #800080 !important; /* Borde magenta más oscuro */
+}
+
+/* Estilos específicos para las diferentes categorías */
+.categoria-chip.oro, .categoria-chip[data-categoria="Oro"] {
+    color: #8B4513 !important; /* Un tono marrón dorado oscuro para el texto */
+    background-color: #FFF8DC !important; /* Un fondo dorado muy pálido */
+    border-color: #FFD700 !important; /* Borde dorado */
+}
+
+.categoria-chip.diamante, .categoria-chip[data-categoria="Diamante"] {
+    color: #0066cc !important; /* Azul diamante para el texto */
+    background-color: #e6f7ff !important; /* Fondo azul claro */
+    border-color: #B9F2FF !important; /* Borde azul diamante */
+}
+
+.categoria-chip.plata, .categoria-chip[data-categoria="Plata"] {
+    color: #666666 !important; /* Gris oscuro para el texto */
+    background-color: #f5f5f5 !important; /* Fondo gris claro */
+    border-color: #C0C0C0 !important; /* Borde plateado */
+}
+
+.categoria-chip.bronce, .categoria-chip[data-categoria="Bronce"] {
+    color: #8B4513 !important; /* Marrón para el texto */
+    background-color: #FFF5E6 !important; /* Fondo naranja muy claro */
+    border-color: #CD7F32 !important; /* Borde bronce */
+}
+
+/* Estilos para mejorar la visualización de los chips en el árbol */
+.tree-item .inline-chip {
+    transition: all 0.2s ease;
+    opacity: 0.95;
+    margin-left: 6px;
+}
+
+.tree-item:hover .inline-chip {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+/* Estilo para alinear correctamente los elementos del árbol */
+.tree-item .d-flex {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Mejoras para la visualización específica del árbol con los chips */
+.tree-content {
+    padding: 2px 0;
+}
+
+/* Asegurar espacio para los elementos con chips */
+.tree-item.selected {
+    background-color: #e0f7fa;
+    padding-right: 8px;
+}
+
+/* Ajustar espaciado vertical para elementos con chips */
+.tree-children .tree-item {
+    margin: 6px 0;
+}
+
+/* Estilo para el contenido cuando el elemento tiene chips */
+.tree-content.has-chips {
+    padding-right: 8px;
+}

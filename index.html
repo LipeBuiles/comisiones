@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol Jerárquico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Árbol Jerárquico</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Alerta de éxito para mostrar cuando se asigna correctamente un permiso -->
+                        <div id="success-alert" class="alert alert-success alert-dismissible fade show mb-3" role="alert" style="display: none;">
+                            Árbol cargado correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        
+                        <!-- Alerta de error para mostrar cuando ocurre un problema al cargar el árbol -->
+                        <div id="error-alert" class="alert alert-danger alert-dismissible fade show mb-3" role="alert" style="display: none;">
+                            <span class="error-message">Ocurrió un error al cargar el árbol.</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <!-- Contenedor inicial que muestra solo DCS General con el botón + -->
+                        <div id="dcs-general-container">
+                            <div class="d-flex align-items-center">
+                                <h4>DCS General</h4>
+                                <button id="add-button" class="btn btn-sm btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#selectionModal">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                                <!-- Nuevo botón Seleccionar para DCS General -->
+                                <button id="select-general-button" class="btn btn-sm btn-secondary ms-2">
+                                    Seleccionar General
+                                </button>
+                                <!-- Contenedor para mostrar esquema y categoría aplicados al general -->
+                                <span id="general-info" class="ms-3"></span>
+                            </div>
+                        </div>
+                        <div id="tree-container" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h3>Seleccionados</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="selected-items" class="border rounded p-3 bg-light overflow-auto" style="max-height: 400px;"></div>
+                        <button id="save-button" class="btn btn-primary mt-2">Guardar Selección</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                            <!-- Modal de selección de nivel -->
+    <div class="modal fade" id="selectionModal" tabindex="-1" aria-labelledby="selectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="selectionModalLabel">Seleccione nivel y opciones</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Opciones de nivel -->
+                    <div class="mb-3">
+                        <label class="form-label">Nivel:</label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="level-option" id="level-region" value="region" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="level-region">Región</label>
+
+                            <input type="radio" class="btn-check" name="level-option" id="level-ruta" value="ruta" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="level-ruta">Ruta</label>
+
+                            <input type="radio" class="btn-check" name="level-option" id="level-circuito" value="circuito" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="level-circuito">Circuito</label>
+                            
+                            <input type="radio" class="btn-check" name="level-option" id="level-pdv" value="pdv" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="level-pdv">PDV</label>
+                        </div>
+                    </div>
+
+                    <!-- Esquema y Categoría requeridos -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="esquema-select" class="form-label">Esquema de Comisión:</label>
+                            <select class="form-select" id="esquema-select" required>
+                                <option value="" selected disabled>Seleccionar</option>
+                                <!-- Opciones de esquemas se cargarán dinámicamente -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un esquema.
+                            </div>
+                            <div id="esquema-info" class="mt-2 p-2 border rounded bg-light" style="display: none;">
+                                <h6 class="fw-bold esquema-nombre mb-1"></h6>
+                                <div class="small">
+                                    <div><strong>Forma:</strong> <span class="esquema-forma"></span></div>
+                                    <div><strong>Tipo:</strong> <span class="esquema-tipo"></span></div>
+                                    <div><strong>Valor:</strong> <span class="esquema-valor"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="categoria-select" class="form-label">Categoría:</label>
+                            <select class="form-select" id="categoria-select" required>
+                                <option value="" selected disabled>Seleccionar</option>
+                                <!-- Opciones de categorías se cargarán dinámicamente -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione una categoría.
+                            </div>
+                            <div id="categoria-info" class="mt-2 p-2 border rounded bg-light" style="display: none;">
+                                <h6 class="fw-bold categoria-nombre mb-1"></h6>
+                                <div class="small">
+                                    <div><strong>Multiplicador:</strong> <span class="categoria-multiplicador"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buscador -->
+                    <div class="mb-3">
+                        <label for="search-input" class="form-label">Buscar:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search-input" placeholder="Buscar por nombre o código...">
+                            <button class="btn btn-primary" type="button" id="search-button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Resultados de búsqueda -->
+                    <div class="mb-3">
+                        <div id="search-results" class="border rounded p-2 mt-2" style="max-height: 200px; overflow-y: auto; display: none;">
+                            <!-- Los resultados de búsqueda se cargarán dinámicamente aquí -->
+                        </div>
+                        <div class="level-error text-danger mt-2" style="display: none;">
+                            Seleccione una opción de nivel DCS.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="apply-general-button">Aplicar al General</button>
+                    <button type="button" class="btn btn-primary" id="load-tree-button">Cargar árbol</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script src="esquemas.js"></script>
+    <script src="categorias.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
