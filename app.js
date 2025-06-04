@@ -12,12 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectGeneralBtn = document.getElementById('select-general-button');
     const applyGeneralBtn = document.getElementById('apply-general-button');
     const selectionModalEl = document.getElementById('selectionModal');
-    // Flag para modo General
-    let generalMode = false;
-    // Inicializar estado de botones y contenedores
-    if (applyGeneralBtn) {
-        applyGeneralBtn.style.display = 'none';
-    }
+    const generalModalEl = document.getElementById('generalModal');
+    const generalEsquemaSelect = document.getElementById('general-esquema-select');
+    const generalCategoriaSelect = document.getElementById('general-categoria-select');
+    
+    // Variables separadas para cada modal
+    let selectedEsquemaGeneral = null; // Para el modal General
+    let selectedCategoriaGeneral = null; // Para el modal General
+    // Inicializar estado de contenedores
     const generalInfoSpan = document.getElementById('general-info');
     if (generalInfoSpan) {
         generalInfoSpan.innerHTML = '';
@@ -73,36 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (levelErrorContainer) {
                 levelErrorContainer.style.display = 'none';
             }
-            // Mostrar/ocultar botones y secciones según modo General
-            if (generalMode) {
-                // Mostrar botón Aplicar al General, ocultar Cargar árbol
-                applyGeneralBtn.style.display = 'inline-block';
-                loadTreeButton.style.display = 'none';
-                // Ocultar bloque de nivel
-                const levelDiv = selectionModalEl.querySelector('label[for="level-region"]').closest('.mb-3');
-                if (levelDiv) levelDiv.style.display = 'none';
-                // Ocultar bloque de búsqueda
-                const searchDiv = selectionModalEl.querySelector('#search-input').closest('.mb-3');
-                if (searchDiv) searchDiv.style.display = 'none';
-                // Ocultar resultados y mensaje de nivel-error
-                const resultsDiv = selectionModalEl.querySelector('#search-results').closest('.mb-3');
-                if (resultsDiv) resultsDiv.style.display = 'none';
-            } else {
-                // Modo normal (+): mostrar botones y bloques por defecto
-                applyGeneralBtn.style.display = 'none';
-                loadTreeButton.style.display = 'inline-block';
-                // Mostrar bloque de nivel
-                const levelDiv = selectionModalEl.querySelector('label[for="level-region"]').closest('.mb-3');
-                if (levelDiv) levelDiv.style.display = '';
-                // Mostrar bloque de búsqueda
-                const searchDiv = selectionModalEl.querySelector('#search-input').closest('.mb-3');
-                if (searchDiv) searchDiv.style.display = '';
-                // Ocultar resultados y mensaje de error
-                const resultsDiv = selectionModalEl.querySelector('#search-results').closest('.mb-3');
-                if (resultsDiv) resultsDiv.style.display = 'none';
-                const levelError = selectionModalEl.querySelector('.level-error');
-                if (levelError) levelError.style.display = 'none';
-            }
             
             // Limpiar el objeto searchSelectedItems para que esté vacío en cada apertura del modal
             searchSelectedItems = {};
@@ -118,60 +90,42 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Ensure the prevent close flag is reset when modal is freshly shown
             parentModalElement.dataset.preventModalClose = 'false';
-            // Ajustes según modo (General vs +)
-            if (generalMode) {
-                // Ocultar selección de nivel
-                const levelBlock = selectionModalEl.querySelector('label[for="level-region"]').closest('.mb-3');
-                if (levelBlock) levelBlock.style.display = 'none';
-                // Ocultar buscador y resultados
-                const searchBlock = selectionModalEl.querySelector('#search-input').closest('.mb-3');
-                if (searchBlock) searchBlock.style.display = 'none';
-                const resultsBlock = selectionModalEl.querySelector('#search-results').closest('.mb-3');
-                if (resultsBlock) resultsBlock.style.display = 'none';
-                // Mostrar botón Aplicar al General, ocultar Cargar árbol
-                applyGeneralBtn.style.display = 'inline-block';
-                loadTreeButton.style.display = 'none';
-            } else {
-                // Modo normal (+): mostrar secciones y botones por defecto
-                // Restaurar visibilidad de bloques
-                selectionModalEl.querySelectorAll('.modal-body .mb-3').forEach(div => div.style.display = '');
-                applyGeneralBtn.style.display = 'none';
-                loadTreeButton.style.display = 'inline-block';
-            }
         });
     }
-    // Evento para abrir modal en modo General
+    // Event listeners para el modal General (separado)
     if (selectGeneralBtn) {
         selectGeneralBtn.addEventListener('click', function() {
-            generalMode = true;
-            // Abrir modal
-            const modal = new bootstrap.Modal(selectionModalEl);
+            console.log('Abriendo modal General');
+            // Abrir modal General
+            const modal = new bootstrap.Modal(generalModalEl);
             modal.show();
         });
     }
-    // Evento para aplicar esquema y categoría al General desde el modal
+    // Evento para aplicar esquema y categoría al General desde el modal General
     if (applyGeneralBtn) {
         applyGeneralBtn.addEventListener('click', function(event) {
-            // Validar selección de esquema y categoría
+            // Validar selección de esquema y categoría en el modal General
             let valid = true;
-            if (!selectedEsquema) {
-                esquemaSelect.classList.add('is-invalid'); valid = false;
+            if (!selectedEsquemaGeneral) {
+                generalEsquemaSelect.classList.add('is-invalid'); 
+                valid = false;
             }
-            if (!selectedCategoria) {
-                categoriaSelect.classList.add('is-invalid'); valid = false;
+            if (!selectedCategoriaGeneral) {
+                generalCategoriaSelect.classList.add('is-invalid'); 
+                valid = false;
             }
             if (!valid) return;
-            // Cerrar modal
-            const modalInstance = bootstrap.Modal.getInstance(selectionModalEl);
+            
+            // Cerrar modal General
+            const modalInstance = bootstrap.Modal.getInstance(generalModalEl);
             if (modalInstance) modalInstance.hide();
-            // Mostrar info junto al botón Seleccionar
+            
+            // Mostrar info junto al botón Seleccionar General
             const infoSpan = document.getElementById('general-info');
             // Crear badges
-            const esquemaBadge = `<span class='badge bg-light text-dark border me-1'>${selectedEsquema.nombre}</span>`;
-            const categoriaBadge = `<span class='badge text-dark ms-1' style='background-color:${selectedCategoria.color};'>${selectedCategoria.nombre}</span>`;
+            const esquemaBadge = `<span class='badge bg-light text-dark border me-1'>${selectedEsquemaGeneral.nombre}</span>`;
+            const categoriaBadge = `<span class='badge text-dark ms-1' style='background-color:${selectedCategoriaGeneral.color};'>${selectedCategoriaGeneral.nombre}</span>`;
             infoSpan.innerHTML = esquemaBadge + categoriaBadge;
-            // Reset generalMode
-            generalMode = false;
         });
     }
     
@@ -188,6 +142,64 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (categoriaSelect) {
             categoriaSelect.value = "";
+        }
+    }
+
+    // Función para agregar chips de esquema y categoría a un elemento del árbol
+    function addChips(itemId, esquema, categoria) {
+        const treeItem = document.querySelector(`.tree-item[data-id="${itemId}"]`);
+        if (!treeItem) {
+            console.warn(`No se encontró el elemento con ID: ${itemId}`);
+            return;
+        }
+
+        const contentElement = treeItem.querySelector('.tree-content');
+        if (!contentElement) {
+            console.warn(`No se encontró el contenido del elemento con ID: ${itemId}`);
+            return;
+        }
+
+        // Remover chips existentes para evitar duplicación
+        const existingChips = contentElement.querySelectorAll('.inline-chip');
+        existingChips.forEach(chip => chip.remove());
+
+        // Crear y agregar chips solo si hay esquema o categoría
+        if (esquema || categoria) {
+            // Agregar chip de esquema
+            if (esquema && esquema.nombre) {
+                const esquemaChip = document.createElement('span');
+                esquemaChip.className = 'inline-chip esquema-chip';
+                esquemaChip.textContent = esquema.nombre;
+                contentElement.appendChild(esquemaChip);
+            }
+
+            // Agregar chip de categoría
+            if (categoria && categoria.nombre) {
+                const categoriaChip = document.createElement('span');
+                categoriaChip.className = 'inline-chip categoria-chip';
+                categoriaChip.textContent = categoria.nombre;
+                categoriaChip.dataset.categoria = categoria.nombre; // Para estilos específicos
+                
+                // Aplicar color si está disponible
+                if (categoria.color) {
+                    categoriaChip.style.backgroundColor = categoria.color;
+                    categoriaChip.style.borderColor = categoria.color + '50'; // Transparencia para el borde
+                    
+                    // Calcular color de texto apropiado (claro/oscuro) basado en el fondo
+                    const rgb = parseInt(categoria.color.replace('#', ''), 16);
+                    const r = (rgb >> 16) & 0xff;
+                    const g = (rgb >> 8) & 0xff;
+                    const b = (rgb >> 0) & 0xff;
+                    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                    categoriaChip.style.color = brightness > 128 ? '#000000' : '#ffffff';
+                }
+                
+                contentElement.appendChild(categoriaChip);
+            }
+
+            // Marcar el contenido como que tiene chips
+            contentElement.classList.add('has-chips');
+            treeItem.classList.add('has-assigned-values');
         }
     }
 
@@ -595,13 +607,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (regionToggle) {
                                 regionToggle.click();
                                 
-                                // Expandir rutas para mostrar circuitos
+                                // Expandir rutas para mostrar circuitos (pero NO expandir los circuitos mismos)
                                 const rutaToggles = treeItem.querySelectorAll('.tree-item[data-tipo="ruta"] .tree-toggle');
                                 rutaToggles.forEach(toggle => {
                                     toggle.click();
-                            });
-                        }
-                    }, 100);
+                                });
+                            }
+                        }, 100);
                     });
                     break;
                     
@@ -738,7 +750,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const selectedLevel = document.querySelector('input[name="level-option"]:checked').value;
+        // Determinar el nivel seleccionado desde los radio buttons
+        const selectedRadio = document.querySelector('input[name="level-option"]:checked');
+        const selectedLevel = selectedRadio ? selectedRadio.value : 'region';
         let results = [];
         
         // Buscar elementos que coincidan con el término de búsqueda
@@ -1090,10 +1104,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (rutaToggle && rutaGroups[rutaId].children.length > 0) {
                                 rutaToggle.click();
                                 
-                                // Expandir circuitos si hay PDVs seleccionados
+                                // Expandir circuitos SOLO si hay PDVs específicamente seleccionados
                                 setTimeout(() => {
                                     rutaGroups[rutaId].children.forEach(circuito => {
-                                        if (circuito.children && circuito.children.length > 0) {
+                                        // Verificar si hay PDVs seleccionados dentro de este circuito
+                                        const hasSelectedPDVs = Object.values(selectedItems).some(item => 
+                                            item.tipo === 'pdv' && 
+                                            item.path && 
+                                            item.path.circuito && 
+                                            item.path.circuito.id === circuito.id
+                                        );
+                                        
+                                        // Solo expandir si hay PDVs específicamente seleccionados
+                                        if (hasSelectedPDVs) {
                                             const circuitoItem = document.querySelector(`[data-id="${circuito.id}"]`);
                                             if (circuitoItem) {
                                                 const circuitoToggle = circuitoItem.querySelector('.tree-toggle');
@@ -1113,26 +1136,42 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Sincronizar las selecciones del árbol con los elementos seleccionados después de renderizar
         setTimeout(() => {
+            // Primer paso: marcar checkboxes
             Object.values(selectedItems).forEach(item => {
                 const checkbox = document.getElementById(`check-${item.id}`);
                 if (checkbox) {
                     checkbox.checked = true;
-                    
+                }
+            });
+            
+            // Segundo paso: agregar chips con tiempo adicional
+            setTimeout(() => {
+                Object.values(selectedItems).forEach(item => {
                     // Añadir chips para mostrar esquema y categoría solo si tiene esquema o categoría
                     if (item.esquema || item.categoria) {
                         addChips(item.id, item.esquema, item.categoria);
                     }
-                }
-            });
-            
-            // Verificar que todos los elementos con checkbox marcado muestren sus chips
-            document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
-                const itemId = checkbox.dataset.id;
-                if (selectedItems[itemId] && (selectedItems[itemId].esquema || selectedItems[itemId].categoria)) {
-                    addChips(itemId, selectedItems[itemId].esquema, selectedItems[itemId].categoria);
-                }
-            });
-        }, 200);
+                });
+                
+                // Tercer paso: verificación adicional para asegurar que todos los chips están presentes
+                setTimeout(() => {
+                    document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
+                        const itemId = checkbox.dataset.id;
+                        if (selectedItems[itemId] && (selectedItems[itemId].esquema || selectedItems[itemId].categoria)) {
+                            // Verificar si ya tiene chips antes de agregarlos
+                            const treeItem = document.querySelector(`.tree-item[data-id="${itemId}"]`);
+                            if (treeItem) {
+                                const existingChips = treeItem.querySelectorAll('.inline-chip');
+                                if (existingChips.length === 0) {
+                                    console.log(`Agregando chips faltantes para: ${itemId}`);
+                                    addChips(itemId, selectedItems[itemId].esquema, selectedItems[itemId].categoria);
+                                }
+                            }
+                        }
+                    });
+                }, 300);
+            }, 200);
+        }, 150);
         
         // Limpiar selecciones de la búsqueda después de cargarlas
         searchSelectedItems = {};
@@ -1694,20 +1733,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar opciones de esquemas y categorías en los selectores
     function loadEsquemas() {
         esquemas.forEach(esquema => {
+            // Cargar en el modal normal
             const option = document.createElement('option');
             option.value = esquema.id;
             option.textContent = esquema.nombre + ` (${esquema.forma}, ${esquema.tipo})`;
             esquemaSelect.appendChild(option);
+            
+            // Cargar en el modal General
+            if (generalEsquemaSelect) {
+                const generalOption = document.createElement('option');
+                generalOption.value = esquema.id;
+                generalOption.textContent = esquema.nombre + ` (${esquema.forma}, ${esquema.tipo})`;
+                generalEsquemaSelect.appendChild(generalOption);
+            }
         });
     }
     
     function loadCategorias() {
         categorias.forEach(categoria => {
+            // Cargar en el modal normal
             const option = document.createElement('option');
             option.value = categoria.id;
             option.textContent = categoria.nombre;
             option.style.backgroundColor = categoria.color + '20'; // Color con transparencia
             categoriaSelect.appendChild(option);
+            
+            // Cargar en el modal General
+            if (generalCategoriaSelect) {
+                const generalOption = document.createElement('option');
+                generalOption.value = categoria.id;
+                generalOption.textContent = categoria.nombre;
+                generalOption.style.backgroundColor = categoria.color + '20'; // Color con transparencia
+                generalCategoriaSelect.appendChild(generalOption);
+            }
         });
     }
     
@@ -1809,176 +1867,89 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Función para añadir chips de esquema y categoría
-    function addChips(itemId, esquema, categoria) {
-        const treeItem = document.querySelector(`.tree-item[data-id="${itemId}"]`);
-        if (!treeItem) {
-            console.log("No se encontró el elemento del árbol con ID:", itemId);
-            return;
-        }
-        
-        const contentElement = treeItem.querySelector('.tree-content');
-        if (!contentElement) {
-            console.log("No se encontró el elemento de contenido para el item:", itemId);
-            return;
-        }
-        
-        const itemNombre = treeItem.dataset.nombre;
-        const itemCodigo = treeItem.dataset.codigo;
-        const tipo = treeItem.dataset.tipo;
-        
-        const checkbox = document.getElementById(`check-${itemId}`);
-        // Use checkbox.checked directly later, as its state can change.
-        const initialIsChecked = checkbox ? checkbox.checked : false;
-        const initialHasAssignedValues = treeItem.classList.contains('has-assigned-values');
-        
-        if (!initialIsChecked && !initialHasAssignedValues) {
-            contentElement.className = `tree-content level-${tipo}`;
-            contentElement.innerHTML = `${itemNombre} (${itemCodigo})`;
-            contentElement.classList.remove('has-chips');
-            treeItem.classList.remove('has-assigned-values');
-            return; 
-        }
-        
-        if (initialHasAssignedValues && checkbox && !checkbox.checked) {
-            checkbox.checked = true;
-        }
-        
-        // Store original passed values to check if defaults were applied
-        const originalPassedEsquema = esquema;
-        const originalPassedCategoria = categoria;
-        
-        if (!esquema && selectedEsquema) {
-            esquema = selectedEsquema;
-        } else if (!esquema && esquemas && esquemas.length > 0) {
-            esquema = esquemas[0];
-        }
-        
-        if (!categoria && selectedCategoria) {
-            categoria = selectedCategoria;
-        } else if (!categoria && categorias && categorias.length > 0) {
-            categoria = categorias[0];
-        }
-        
-        // Use live checkbox state from here
-        const currentIsChecked = checkbox ? checkbox.checked : false;
-
-        if ((currentIsChecked || initialHasAssignedValues) && (esquema || categoria)) {
-            let contentHTML = `${itemNombre} (${itemCodigo})`;
-            if (esquema) {
-                contentHTML += ` <span class="inline-chip esquema-chip" data-esquema="${esquema.nombre}">${esquema.nombre}</span>`;
-            }
-            if (categoria) {
-                const categoriaLower = categoria.nombre.toLowerCase();
-                const categoriaClass = categoriaLower === 'oro' || categoriaLower === 'diamante' || 
-                                       categoriaLower === 'plata' || categoriaLower === 'bronce' ? 
-                                       categoriaLower : '';
-                contentHTML += ` <span class="inline-chip categoria-chip ${categoriaClass}" data-categoria="${categoria.nombre}">${categoria.nombre}</span>`;
-            }
+    // Event listeners para los selectores del modal General
+    if (generalEsquemaSelect) {
+        generalEsquemaSelect.addEventListener('change', function() {
+            const esquemaId = this.value;
+            selectedEsquemaGeneral = esquemas.find(e => e.id === esquemaId);
             
-            contentElement.innerHTML = contentHTML;
-            contentElement.className = `tree-content level-${tipo} has-chips`;
-            treeItem.classList.add('has-assigned-values');
-            
-            // If item is in selectedItems, update its schema/category if defaults were applied by addChips
-            if (selectedItems[itemId]) {
-                if (esquema !== originalPassedEsquema && selectedItems[itemId].esquema !== esquema) {
-                    selectedItems[itemId].esquema = esquema;
-                }
-                if (categoria !== originalPassedCategoria && selectedItems[itemId].categoria !== categoria) {
-                    selectedItems[itemId].categoria = categoria;
-                }
-            } else if (currentIsChecked || initialHasAssignedValues) {
-                // Item is checked or had 'has-assigned-values' but is not in selectedItems.
-                // This is a potential desynchronization. handleCheckboxChange should manage adding to selectedItems.
-                // Avoid creating an entry here as addChips might not have the full context for the item's intended specific schema/category.
-                console.warn(`Item ${itemId} is checked or has 'has-assigned-values' but was not found in selectedItems. Chips applied based on available/default data. Ensure selectedItems is correctly populated.`);
-            }
-        } else {
-            contentElement.innerHTML = `${itemNombre} (${itemCodigo})`;
-            contentElement.className = `tree-content level-${tipo}`;
-            contentElement.classList.remove('has-chips');
-            if (!currentIsChecked) { // Only remove if also not checked
-                treeItem.classList.remove('has-assigned-values');
-            }
-        }
-        
-        console.log(`Chips aplicados a ${itemId}: "${itemNombre} (${itemCodigo})" + Esquema: ${esquema?.nombre || 'ninguno'} + Categoría: ${categoria?.nombre || 'ninguna'}`);
-    }
-    
-    // Función auxiliar para determinar si un color es claro u oscuro
-    function isLightColor(color) {
-        // Convertir el color hex a RGB
-        const hex = color.replace('#', '');
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-        
-        // Calcular el brillo (fórmula común para determinar brillo de un color)
-        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-        
-        // Si el brillo es mayor a 125, es un color claro
-        return brightness > 125;
-    }
-
-    // Función para actualizar todos los chips...
-    function updateChips() {
-        console.log("Actualizando todos los chips...");
-        // Actualizar todos los elementos del árbol
-        document.querySelectorAll('.tree-item').forEach(item => {
-            const contentElement = item.querySelector('.tree-content');
-            if (contentElement) {
-                const itemId = item.dataset.id;
-                const checkbox = document.getElementById(`check-${itemId}`);
+            // Actualizar información visible del esquema en modal General
+            if (selectedEsquemaGeneral) {
+                const esquemaInfo = document.getElementById('general-esquema-info');
+                esquemaInfo.style.display = 'block';
+                esquemaInfo.querySelector('.esquema-nombre').textContent = selectedEsquemaGeneral.nombre;
+                esquemaInfo.querySelector('.esquema-forma').textContent = selectedEsquemaGeneral.forma;
+                esquemaInfo.querySelector('.esquema-tipo').textContent = selectedEsquemaGeneral.tipo;
                 
-                if (checkbox && checkbox.checked && selectedItems[itemId]) {
-                    // Si el checkbox existe, está marcado y el elemento está en selectedItems
-                    // Asegurarnos de usar el esquema y categoría actuales
-                    const esquema = selectedItems[itemId].esquema || selectedEsquema;
-                    const categoria = selectedItems[itemId].categoria || selectedCategoria;
-                    
-                    // Añadir los chips con los valores actuales
-                    addChips(itemId, esquema, categoria);
-                } else {
-                    // Si no está seleccionado, restaurar el contenido original sin chips
-                    const itemNombre = item.dataset.nombre;
-                    const itemCodigo = item.dataset.codigo;
-                    const tipo = item.dataset.tipo;
-                    contentElement.className = `tree-content level-${tipo}`;
-                    contentElement.innerHTML = `${itemNombre} (${itemCodigo})`;
-                    contentElement.classList.remove('has-chips');
-                    item.classList.remove('has-assigned-values');
+                // Formatear el valor según el tipo
+                let valorText = '';
+                if (selectedEsquemaGeneral.tipo === '%') {
+                    valorText = `${selectedEsquemaGeneral.valor}%`;
+                } else if (selectedEsquemaGeneral.tipo === 'valor') {
+                    valorText = `$${selectedEsquemaGeneral.valor.toLocaleString()}`;
+                } else if (selectedEsquemaGeneral.tipo === 'mixto') {
+                    valorText = `$${selectedEsquemaGeneral.valor.fijo.toLocaleString()} + ${selectedEsquemaGeneral.valor.porcentaje}%`;
                 }
+                esquemaInfo.querySelector('.esquema-valor').textContent = valorText;
+                
+                // Quitar clase de inválido si estaba presente
+                this.classList.remove('is-invalid');
+            } else {
+                const esquemaInfo = document.getElementById('general-esquema-info');
+                if (esquemaInfo) esquemaInfo.style.display = 'none';
             }
         });
     }
     
-    // Función para actualizar los chips en elementos ya seleccionados cuando cambia el esquema o categoría
-    function updateSelectedItemsChips() {
-        console.log("Refrescando chips para elementos seleccionados (que están checkeados) con sus datos almacenados...");
-    
-        // Ya no actualizamos globalmente selectedItems[itemId].esquema y .categoria aquí.
-        // Esos valores se consideran "fijos" una vez asignados a un item en selectedItems,
-        // a menos que otra lógica específica los modifique.
-        // Esta función ahora solo se encarga de que los chips visuales reflejen
-        // el estado actual de selectedItems para los elementos checkeados.
-    
-        document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
-            const itemId = checkbox.dataset.id;
+    if (generalCategoriaSelect) {
+        generalCategoriaSelect.addEventListener('change', function() {
+            const categoriaId = this.value;
+            selectedCategoriaGeneral = categorias.find(c => c.id === categoriaId);
             
-            if (selectedItems[itemId]) {
-                // Usar el esquema y categoría almacenados para este item.
-                // addChips se encargará de la actualización visual.
-                addChips(itemId, selectedItems[itemId].esquema, selectedItems[itemId].categoria);
+            // Actualizar información visible de la categoría en modal General
+            if (selectedCategoriaGeneral) {
+                const categoriaInfo = document.getElementById('general-categoria-info');
+                categoriaInfo.style.display = 'block';
+                
+                // Aplicar el color de la categoría al título
+                const categoriaNombre = categoriaInfo.querySelector('.categoria-nombre');
+                categoriaNombre.textContent = selectedCategoriaGeneral.nombre;
+                categoriaNombre.style.color = selectedCategoriaGeneral.color;
+                
+                categoriaInfo.querySelector('.categoria-multiplicador').textContent = `x${selectedCategoriaGeneral.multiplicador}`;
+                
+                // Quitar clase de inválido si estaba presente
+                this.classList.remove('is-invalid');
             } else {
-                // Este caso (checkbox marcado pero item no en selectedItems) es anómalo si la lógica está sincronizada.
-                // Si ocurre, addChips podría aplicar defaults globales o limpiar los chips si no hay esquema/categoria.
-                console.warn(`Item ${itemId} con checkbox marcado, pero no encontrado en selectedItems durante updateSelectedItemsChips. Intentando actualizar chips.`);
-                addChips(itemId, null, null); // Permitir a addChips manejar esto, posiblemente usando defaults globales.
+                const categoriaInfo = document.getElementById('general-categoria-info');
+                if (categoriaInfo) categoriaInfo.style.display = 'none';
             }
         });
+    }
     
-        // Actualizar también el panel de elementos seleccionados, ya que lee de selectedItems.
-        updateSelectedItemsDisplay();
+    // Event listener para reset del modal General
+    if (generalModalEl) {
+        generalModalEl.addEventListener('show.bs.modal', function() {
+            // Reset de selecciones del modal General
+            selectedEsquemaGeneral = null;
+            selectedCategoriaGeneral = null;
+            
+            // Reset de selectores
+            if (generalEsquemaSelect) {
+                generalEsquemaSelect.value = "";
+                generalEsquemaSelect.classList.remove('is-invalid');
+            }
+            if (generalCategoriaSelect) {
+                generalCategoriaSelect.value = "";
+                generalCategoriaSelect.classList.remove('is-invalid');
+            }
+            
+            // Ocultar información de esquema y categoría
+            const generalEsquemaInfo = document.getElementById('general-esquema-info');
+            if (generalEsquemaInfo) generalEsquemaInfo.style.display = 'none';
+            
+            const generalCategoriaInfo = document.getElementById('general-categoria-info');
+            if (generalCategoriaInfo) generalCategoriaInfo.style.display = 'none';
+        });
     }
 });

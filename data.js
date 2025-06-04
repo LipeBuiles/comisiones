@@ -97,14 +97,51 @@ const jerarquiaData = [
                         codigo: "C1004",
                         nombre: "Circuito Montañoso Norte",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv8",
+                                codigo: "PDV1008",
+                                nombre: "Tienda Montañosa 1",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv9",
+                                codigo: "PDV1009",
+                                nombre: "Tienda Montañosa 2",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv10",
+                                codigo: "PDV1010",
+                                nombre: "Centro Alpino Norte",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito5",
                         codigo: "C1005",
                         nombre: "Circuito Comercial Norte",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv11",
+                                codigo: "PDV1011",
+                                nombre: "Centro Comercial Norte Plaza",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv12",
+                                codigo: "PDV1012",
+                                nombre: "Tienda Departamental Norte",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             },
@@ -119,7 +156,22 @@ const jerarquiaData = [
                         codigo: "C1006",
                         nombre: "Circuito Exterior Norte",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv13",
+                                codigo: "PDV1013",
+                                nombre: "Tienda Periférica Norte",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv14",
+                                codigo: "PDV1014",
+                                nombre: "Estación de Servicio Norte",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             }
@@ -142,21 +194,80 @@ const jerarquiaData = [
                         codigo: "C2001",
                         nombre: "Circuito Urbano Sur",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv15",
+                                codigo: "PDV2001",
+                                nombre: "Tienda Central Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv16",
+                                codigo: "PDV2002",
+                                nombre: "Supermercado Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv17",
+                                codigo: "PDV2003",
+                                nombre: "Centro Comercial Sur",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito8",
                         codigo: "C2002",
                         nombre: "Circuito Costero Sur",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv18",
+                                codigo: "PDV2004",
+                                nombre: "Tienda Playa Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv19",
+                                codigo: "PDV2005",
+                                nombre: "Resort Costero Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv20",
+                                codigo: "PDV2006",
+                                nombre: "Marina Sur",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito9",
                         codigo: "C2003",
                         nombre: "Circuito Turístico Sur",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv21",
+                                codigo: "PDV2007",
+                                nombre: "Hotel Turístico Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv22",
+                                codigo: "PDV2008",
+                                nombre: "Tienda Souvenirs Sur",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             },
@@ -171,14 +282,51 @@ const jerarquiaData = [
                         codigo: "C2004",
                         nombre: "Circuito Portuario Sur",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv23",
+                                codigo: "PDV2009",
+                                nombre: "Terminal Portuario Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv24",
+                                codigo: "PDV2010",
+                                nombre: "Almacén Puerto Sur",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv25",
+                                codigo: "PDV2011",
+                                nombre: "Oficina Aduanas Sur",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito11",
                         codigo: "C2005",
                         nombre: "Circuito Rural Sur",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv26",
+                                codigo: "PDV2012",
+                                nombre: "Tienda Rural Sur 1",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv27",
+                                codigo: "PDV2013",
+                                nombre: "Tienda Rural Sur 2",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             }
@@ -201,14 +349,58 @@ const jerarquiaData = [
                         codigo: "C3001",
                         nombre: "Circuito Central Este",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv28",
+                                codigo: "PDV3001",
+                                nombre: "Tienda Central Este",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv29",
+                                codigo: "PDV3002",
+                                nombre: "Plaza Central Este",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv30",
+                                codigo: "PDV3003",
+                                nombre: "Oficina Principal Este",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito13",
                         codigo: "C3002",
                         nombre: "Circuito Universitario Este",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv31",
+                                codigo: "PDV3004",
+                                nombre: "Cafetería Universidad Este",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv32",
+                                codigo: "PDV3005",
+                                nombre: "Librería Universitaria Este",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv33",
+                                codigo: "PDV3006",
+                                nombre: "Centro Estudiantil Este",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             },
@@ -223,14 +415,44 @@ const jerarquiaData = [
                         codigo: "C3003",
                         nombre: "Circuito Industrial Este",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv34",
+                                codigo: "PDV3007",
+                                nombre: "Planta Industrial Este 1",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv35",
+                                codigo: "PDV3008",
+                                nombre: "Planta Industrial Este 2",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito15",
                         codigo: "C3004",
                         nombre: "Circuito Montañoso Este",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv36",
+                                codigo: "PDV3009",
+                                nombre: "Refugio Montaña Este",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv37",
+                                codigo: "PDV3010",
+                                nombre: "Tienda Alpina Este",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             }
@@ -253,14 +475,51 @@ const jerarquiaData = [
                         codigo: "C4001",
                         nombre: "Circuito Urbano Oeste",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv38",
+                                codigo: "PDV4001",
+                                nombre: "Tienda Central Oeste",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv39",
+                                codigo: "PDV4002",
+                                nombre: "Centro Comercial Oeste",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv40",
+                                codigo: "PDV4003",
+                                nombre: "Supermercado Oeste",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     },
                     {
                         id: "circuito17",
                         codigo: "C4002",
                         nombre: "Circuito Comercial Oeste",
                         tipo: "circuito",
-                        children: []
+                        children: [
+                            {
+                                id: "pdv41",
+                                codigo: "PDV4004",
+                                nombre: "Plaza Comercial Oeste",
+                                tipo: "pdv",
+                                children: []
+                            },
+                            {
+                                id: "pdv42",
+                                codigo: "PDV4005",
+                                nombre: "Tienda Departamental Oeste",
+                                tipo: "pdv",
+                                children: []
+                            }
+                        ]
                     }
                 ]
             },

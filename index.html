@@ -30,18 +30,20 @@
                         </div>
                         <!-- Contenedor inicial que muestra solo DCS General con el botón + -->
                         <div id="dcs-general-container">
-                            <div class="d-flex align-items-center">
+                            <div class="dcs-header">
                                 <h4>DCS General</h4>
-                                <button id="add-button" class="btn btn-sm btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#selectionModal">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
-                                <!-- Nuevo botón Seleccionar para DCS General -->
-                                <button id="select-general-button" class="btn btn-sm btn-secondary ms-2">
-                                    Seleccionar General
-                                </button>
-                                <!-- Contenedor para mostrar esquema y categoría aplicados al general -->
-                                <span id="general-info" class="ms-3"></span>
+                                <div class="button-group">
+                                    <button id="add-button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#selectionModal">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                    <!-- Nuevo botón Seleccionar para DCS General -->
+                                    <button id="select-general-button" class="btn btn-sm btn-secondary">
+                                        Seleccionar General
+                                    </button>
+                                </div>
                             </div>
+                            <!-- Contenedor para mostrar esquema y categoría aplicados al general -->
+                            <div id="general-info" class="general-badges"></div>
                         </div>
                         <div id="tree-container" class="mt-3"></div>
                     </div>
@@ -149,8 +151,64 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="apply-general-button">Aplicar al General</button>
                     <button type="button" class="btn btn-primary" id="load-tree-button">Cargar árbol</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal General - Solo Esquema y Categoría -->
+    <div class="modal fade" id="generalModal" tabindex="-1" aria-labelledby="generalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="generalModalLabel">Asignar Esquema y Categoría General</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3">Selecciona un esquema y categoría para aplicar a todos los PDVs.</p>
+                    
+                    <!-- Solo Esquema y Categoría -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="general-esquema-select" class="form-label">Esquema de Comisión:</label>
+                            <select class="form-select" id="general-esquema-select" required>
+                                <option value="" selected disabled>Seleccionar</option>
+                                <!-- Opciones de esquemas se cargarán dinámicamente -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un esquema.
+                            </div>
+                            <div id="general-esquema-info" class="mt-2 p-2 border rounded bg-light" style="display: none;">
+                                <h6 class="fw-bold esquema-nombre mb-1"></h6>
+                                <div class="small">
+                                    <div><strong>Forma:</strong> <span class="esquema-forma"></span></div>
+                                    <div><strong>Tipo:</strong> <span class="esquema-tipo"></span></div>
+                                    <div><strong>Valor:</strong> <span class="esquema-valor"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="general-categoria-select" class="form-label">Categoría:</label>
+                            <select class="form-select" id="general-categoria-select" required>
+                                <option value="" selected disabled>Seleccionar</option>
+                                <!-- Opciones de categorías se cargarán dinámicamente -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione una categoría.
+                            </div>
+                            <div id="general-categoria-info" class="mt-2 p-2 border rounded bg-light" style="display: none;">
+                                <h6 class="fw-bold categoria-nombre mb-1"></h6>
+                                <div class="small">
+                                    <div><strong>Multiplicador:</strong> <span class="categoria-multiplicador"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" id="apply-general-button">Aplicar al General</button>
                 </div>
             </div>
         </div>
